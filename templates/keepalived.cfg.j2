@@ -1,0 +1,62 @@
+{% if keepalived_global[0] is defined%}
+{% for item in keepalived_global %}
+global_defs {
+    router_id {{item.route_id}}
+}
+{% endfor %}
+{% endif %}
+
+{% if keepalived_vrrp_script[0] is defined%}
+{% for item in keepalived_vrrp_script %}
+vrrp_script {{ item.name }} {
+  script "{{item.script}}"
+  interval {{ item.interval }}
+  weight {{ item.weight }}
+}
+{% endfor %}
+{% endif %}
+
+
+{% if keepalived_vrrp_instance[0] is defined%}
+{% for item in keepalived_vrrp_instance %}
+vrrp_instance {{ item.name }} 
+{
+  virtual_router_id {{item.virtual_router_id}}
+  advert_int {{ item.advert_int }}
+  priority {{ item.priority }}
+  state {{ keepalived_hosts_state }}
+  interface {{ item.interface }}
+
+{% if item.virtual_ipaddress[0] is defined %}
+virtual_ipaddress 
+{
+{% for data in item.virtual_ipaddress %}
+  {{ data.ip_address_virtual|indent(4) }} dev {{ item.interface }}
+{% endfor %}
+}
+{% endif %}
+
+{% if item.authentication[0] is defined %}
+
+authentication 
+{
+{% for data in item.authentication %}
+  auth_type {{ data.authentication }}
+  auth_pass {{ data.passwd }} 
+{% endfor %}
+}
+{% endif %}
+
+{% if item.track_script[0] is defined %}
+track_script 
+{
+{% for data in item.track_script %}
+  {{ data.script }}
+{% endfor %}
+}
+{% endif %}
+
+}
+{% endfor %}
+{% endif %}
+

@@ -1,0 +1,14 @@
+---
+
+- name: export enviroment
+  lineinfile:
+    path: /etc/sysctl.conf
+    state: present
+    regexp: 'net.ipv4.ip_nonlocal_bind=1'
+    line: net.ipv4.ip_nonlocal_bind=1
+
+- name: Install keepalived
+  package: 
+    name: "{{ keepalived_packages }}"
+    state: present
+  environment: "{{ proxy_env|default('NONE',True) }}"

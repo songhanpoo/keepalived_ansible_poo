@@ -1,0 +1,13 @@
+---
+# tasks file for keepalived
+- name: include os specific vars
+  include_vars: '{{ item }}'
+  with_first_found:
+    - '{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml'
+    - '{{ ansible_os_family }}.yml'
+
+- name: import task install packaged
+  import_tasks: install.yml
+
+- name: import task deploy configure
+  import_tasks: config.yml

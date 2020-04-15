@@ -1,0 +1,25 @@
+---
+
+# keepalived packages to remove
+keepalived_packages_removed:
+  - keepalived
+
+# keepalived_repository:
+
+# keepalived_key:
+
+# keepalived_packages_dependencies:
+
+keepalived_packages:
+  - keepalived
+
+# keepalived services
+keepalived_services: keepalived
+
+## directory
+keepalived_directory: /etc/keepalived
+
+
+# keepalived_system_directory:
+
+# keepalived_registry_ca_directory:

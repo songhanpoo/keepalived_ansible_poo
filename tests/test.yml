@@ -1,0 +1,29 @@
+---
+- hosts: all
+  remote_user: root
+  roles:
+    - keepalived
+  vars:
+    vars:      
+    keepalived_global:
+    - route_id: test1
+      
+    keepalived_vrrp_script:
+    - name: chk_haproxy
+      script: killall -0 haproxy
+      interval: 2
+      weight: 2
+
+    keepalived_vrrp_instance:
+    - name: VI_1
+      virtual_router_id: 51
+      advert_int: 1
+      priority: 100
+      interface: ens33
+      virtual_ipaddress:
+        - ip_address_virtual: 172.17.3.222
+      authentication:
+        - authentication: PASS
+          passwd: 123456
+      track_script:
+        - script: chk_haproxy

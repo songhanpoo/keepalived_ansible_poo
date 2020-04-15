@@ -1,0 +1,14 @@
+---
+# handlers file for keepalived---
+
+- name: reload service keepalived, in all cases
+  systemd:
+    name: keepalived
+    state: reloaded
+  listen: keepalived restart
+
+- name: enable service keepalived and ensure it is not masked
+  systemd:
+    name: keepalived
+    enabled: yes
+  listen: keepalived restart

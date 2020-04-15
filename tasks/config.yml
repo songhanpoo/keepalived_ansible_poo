@@ -1,0 +1,11 @@
+---
+- name: Add managed vhost config files.
+  template:
+    src: keepalived.cfg.j2
+    dest: "{{ keepalived_directory }}/keepalived.conf"
+    force: true
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify: keepalived restart
